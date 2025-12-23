@@ -47,7 +47,7 @@ body {
 
 /* INPUTS */
 input, select {
-  width: 30%;
+  width: 100%;
   padding: 14px 16px;
   border-radius: 14px;
   border: 1px solid #ddd;
@@ -56,6 +56,8 @@ input, select {
   margin-bottom: 18px;
   outline: none;
 }
+
+input
 
 input:focus, select:focus {
   border-color: var(--azul-principal);
@@ -118,6 +120,16 @@ button:hover {
   margin-right: 12px;
   transform: scale(1.2);
 }
+
+.check-item {
+  display: flex;
+  align-items: center;
+}
+
+.check {
+  width: 30%;
+}
+
 
 /* RESPONSIVE */
 @media (min-width: 768px) {
