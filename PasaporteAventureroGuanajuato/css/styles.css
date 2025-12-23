@@ -1,0 +1,128 @@
+:root {
+  --azul-principal: #4b7dc5;
+  --azul-oscuro: #35588a;
+  --azul-claro: #5ea4ee;
+  --blanco: #ffffff;
+  --gris-claro: #f2f4f8;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--azul-principal), var(--azul-claro));
+  color: var(--azul-oscuro);
+}
+
+.container {
+  min-height: 100vh;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* TARJETAS */
+.card {
+  background: var(--blanco);
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+
+  width: 100%;
+}
+
+
+
+/* LOGO / IMÁGENES */
+.logo {
+  max-width: 130px;
+  margin: 0 auto 25px;
+  display: block;
+}
+
+/* INPUTS */
+input, select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  background: var(--gris-claro);
+  font-size: 1rem;
+  margin-bottom: 18px;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--azul-principal);
+  background: var(--blanco);
+}
+
+/* BOTONES */
+button {
+  background: linear-gradient(135deg, var(--azul-principal), var(--azul-oscuro));
+  color: var(--blanco);
+  border: none;
+  padding: 16px;
+  font-size: 1.05rem;
+  border-radius: 16px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* OPCIONES QUIZ */
+.option {
+  background: var(--azul-claro);
+  color: var(--blanco);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.option:hover {
+  background: var(--azul-principal);
+  transform: scale(1.03);
+}
+
+/* CHECKLIST */
+.checklist {
+  margin-top: 15px;
+}
+
+.checklist label {
+  display: flex;
+  align-items: center;
+  background: var(--gris-claro);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.checklist input {
+  margin-right: 12px;
+  transform: scale(1.2);
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .card {
+    max-width: 420px;
+  }
+}
+
