@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <h2>Registro</h2>
+
+    <input id="nombre" placeholder="Nombre">
+    <input id="telefono" placeholder="Teléfono" type="tel">
+
+    <select id="municipio">
+      <option value="">Municipio</option>
+      <option>León</option>
+      <option>Guanajuato</option>
+      <option>Irapuato</option>
+      <option>Celaya</option>
+    </select>
+
+    <select id="edad">
+      <option value="">Rango de edad</option>
+      <option>18 - 25</option>
+      <option>26 - 35</option>
+      <option>36 - 50</option>
+      <option>50+</option>
+    </select>
+
+    <button onclick="guardarRegistro()">Continuar</button>
+  </div>
+</div>
+
+<script src="js/registro.js"></script>
+</body>
+</html>

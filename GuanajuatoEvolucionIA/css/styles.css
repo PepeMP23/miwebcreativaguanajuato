@@ -1,0 +1,86 @@
+:root {
+  --primary: #4b7dc5;
+  --secondary: #35588a;
+  --accent: #5ea4ee;
+  --white: #ffffff;
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 24px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.2);
+}
+
+h1, h2 {
+  text-align: center;
+  color: var(--secondary);
+}
+
+p {
+  text-align: center;
+  color: #555;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.option {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--white);
+  margin: 10px 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+.option:hover {
+  background: var(--secondary);
+}
+
+img {
+  max-width: 100%;
+  border-radius: var(--radius);
+}
