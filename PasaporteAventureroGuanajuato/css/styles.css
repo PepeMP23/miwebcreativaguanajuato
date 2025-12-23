@@ -19,7 +19,7 @@ body {
 
 .container {
   min-height: 100vh;
-  padding: 12px;
+  padding: 0 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,8 +32,8 @@ body {
   border-radius: 24px;
   padding: 22px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-
   width: 100%;
+  max-width: 800px;
 }
 
 
@@ -130,11 +130,4 @@ button:hover {
   width: 30%;
 }
 
-
-/* RESPONSIVE */
-@media (min-width: 768px) {
-  .card {
-    max-width: 420px;
-  }
-}
 
