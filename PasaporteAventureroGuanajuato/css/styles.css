@@ -47,7 +47,7 @@ body {
 
 /* INPUTS */
 input, select {
-  width: 100%;
+  width: 30%;
   padding: 14px 16px;
   border-radius: 14px;
   border: 1px solid #ddd;
