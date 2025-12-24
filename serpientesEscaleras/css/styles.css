@@ -1,0 +1,370 @@
+/* =========================
+   VARIABLES DE COLOR
+========================= */
+:root {
+  --primary: #4b7dc5;
+  --secondary: #35588a;
+  --accent: #5ea4ee;
+  --white: #ffffff;
+  --bg: #f4f7fb;
+  --text: #1f2937;
+}
+
+/* =========================
+   RESET Y BASE
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+.app {
+  background: var(--bg);
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   HEADER / FOOTER
+========================= */
+header {
+  background: var(--primary);
+  color: var(--white);
+  padding: 24px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+}
+
+footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 0.8rem;
+  color: #666;
+  background: #eef2f8;
+}
+
+/* =========================
+   PANTALLAS
+========================= */
+.screen {
+  display: none;
+  padding: 32px;
+  text-align: center;
+  flex: 1;
+}
+
+.screen.active {
+  display: block;
+}
+
+.screen h2 {
+  font-size: 1.8rem;
+  color: var(--secondary);
+  margin-bottom: 12px;
+}
+
+.screen p {
+  margin-bottom: 24px;
+  color: #444;
+}
+
+/* =========================
+   BOTONES
+========================= */
+button {
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background: var(--primary);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* =========================
+   OPCIONES DE JUGADORES
+========================= */
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   JUEGO
+========================= */
+.board-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .board-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   TABLERO
+========================= */
+.board-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  width: 100%;
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  background: #e6eef9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  border-radius: 6px;
+  position: relative;
+}
+
+.cell:nth-child(even) {
+  background: #cfe0f7;
+}
+
+/* =========================
+   ZONA DE ESPERA
+========================= */
+.waiting-area {
+  background: #eef2f8;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.waiting-area h3 {
+  color: var(--secondary);
+  margin-bottom: 10px;
+}
+
+.waiting-players {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.waiting-token {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* =========================
+   FICHAS DE JUGADORES
+========================= */
+.token {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  position: absolute;
+  border: 2px solid #fff;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+
+/* =========================
+   SVG SERPIENTES Y ESCALERAS
+========================= */
+.board-container {
+  position: relative;
+  width: 100%;
+}
+
+#svgLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.board {
+  position: relative;
+  z-index: 1;
+}
+
+
+.ladder {
+  stroke: #2ecc71;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.snake {
+  stroke: #e74c3c;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar h3 {
+  margin-bottom: 8px;
+  color: var(--secondary);
+}
+
+#currentPlayer {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.players-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+}
+
+.players-list li {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+/* =========================
+   DADO
+========================= */
+.dice {
+  font-size: 3rem;
+  margin: 16px 0;
+}
+
+/* =========================
+   RESPONSIVE EXTRA
+========================= */
+@media (max-width: 500px) {
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  .board-container {
+    max-width: 100%;
+  }
+
+  .sidebar {
+    margin-top: 16px;
+  }
+}
+
+
+/* =========================
+   MODALES
+========================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: 32px;
+  border-radius: 18px;
+  text-align: center;
+  animation: scaleIn 0.4s ease;
+  min-width: 280px;
+}
+
+.modal-content.win {
+  animation: winPop 0.6s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes winPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* =========================
+   ANIMACIÓN DADO
+========================= */
+.dice-anim {
+  font-size: 4rem;
+  margin: 20px 0;
+  animation: spin 1s linear infinite;
+}
+
+.dice-stop {
+  animation: none;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

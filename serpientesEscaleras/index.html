@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guanajuato | Serpientes y Escaleras</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>🎲 Guanajuato – Serpientes y Escaleras</h1>
+  </header>
+
+  <!-- Pantalla 1: Inicio -->
+  <main id="screen-home" class="screen active">
+    <h2>Bienvenido</h2>
+    <p>Un juego clásico inspirado en Guanajuato</p>
+    <button id="startBtn">Empezar juego</button>
+  </main>
+
+  <!-- Pantalla 2: Selección de jugadores -->
+  <main id="screen-players" class="screen">
+    <h2>Selecciona el número de jugadores</h2>
+    <div class="options">
+      <button data-players="2">2</button>
+      <button data-players="3">3</button>
+      <button data-players="4">4</button>
+      <button data-players="5">5</button>
+    </div>
+  </main>
+
+  <!-- Pantalla 3: Juego -->
+  <main id="screen-game" class="screen">
+    <div class="waiting-area">
+        <h3>Zona de espera</h3>
+        <div id="waitingPlayers" class="waiting-players"></div>
+    </div>
+
+    <div class="board-wrapper">
+
+      <!-- CONTENEDOR TABLERO + SVG -->
+      <div class="board-container">
+  <svg
+    id="svgLayer"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="none"
+  ></svg>
+
+  <div id="board" class="board"></div>
+</div>
+
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h3>Turno actual</h3>
+        <p id="currentPlayer"></p>
+
+
+        <hr />
+
+        <ul id="playersList" class="players-list"></ul>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer>
+    Guanajuato © 2025
+  </footer>
+</div>
+
+<!-- MODAL TURNO -->
+<div id="turnModal" class="modal hidden">
+  <div class="modal-content">
+    <h2 id="turnTitle"></h2>
+    <div id="diceAnim" class="dice-anim">🎲</div>
+    <button id="modalRollBtn">Lanzar dado</button>
+  </div>
+</div>
+
+<!-- MODAL GANADOR -->
+<div id="winModal" class="modal hidden">
+  <div class="modal-content win">
+    <h2 id="winTitle"></h2>
+    <p>🎉 ¡Felicidades! 🎉</p>
+    <button onclick="location.reload()">Jugar otra vez</button>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="js/game.js"></script>
+</body>
+</html>
