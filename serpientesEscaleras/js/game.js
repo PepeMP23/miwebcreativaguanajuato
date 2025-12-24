@@ -5,7 +5,7 @@ const screens = {
 };
 
 const startBtn = document.getElementById('startBtn');
-const svg = document.getElementById('svgLayer');
+const svgLayer = document.getElementById('svgLayer');
 
 let players = [];
 let currentPlayerIndex = 0;
@@ -13,14 +13,12 @@ const boardSize = 30;
 
 /* 🐍🪜 SERPIENTES Y ESCALERAS */
 const snakesAndLadders = {
-  3: 11,
+  3: 10,
   6: 17,
-  9: 18,
-  14: 22,
-  27: 5,
+  14: 27,
+  15: 2,
   24: 16,
-  20: 8,
-  18: 7
+  26: 13,
 };
 
 startBtn.addEventListener('click', () => showScreen('players'));
@@ -30,7 +28,6 @@ document.querySelectorAll('[data-players]').forEach(btn => {
     initPlayers(parseInt(btn.dataset.players));
   });
 });
-
 
 function showScreen(screen) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
@@ -60,7 +57,6 @@ function createBoard() {
     cell.dataset.number = i;
     cell.textContent = i;
 
-    /* Marca visual */
     if (snakesAndLadders[i]) {
       cell.style.background =
         snakesAndLadders[i] > i ? '#c8facc' : '#ffd6d6';
@@ -71,11 +67,9 @@ function createBoard() {
 
   renderTokens();
 
-// Espera a que el DOM pinte el tablero
-    requestAnimationFrame(() => {
-        drawSnakesAndLadders();
-    });
-
+  requestAnimationFrame(() => {
+    drawSnakesAndLadders();
+  });
 }
 
 function renderTokens() {
@@ -87,31 +81,33 @@ function renderTokens() {
     const cell = document.querySelector(
       `.cell[data-number="${player.position}"]`
     );
-
     if (!cell) return;
 
     const tokensInCell = cell.querySelectorAll('.token').length;
+    const totalTokens = players.filter(p => p.position === player.position).length;
 
     const token = document.createElement('div');
     token.className = 'token';
     token.style.background = player.color;
 
-    // posiciones tipo cuadrícula (máx 5 jugadores)
-    const positions = [
-      { bottom: '6px', left: '6px' },
-      { bottom: '6px', right: '6px' },
-      { top: '6px', left: '6px' },
-      { top: '6px', right: '6px' },
-      { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
-    ];
+    // 📐 Distribución circular
+    const radius = totalTokens > 1 ? 12 : 0;
+    const angle = (2 * Math.PI / totalTokens) * tokensInCell;
 
-    const pos = positions[tokensInCell] || positions[0];
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
 
-    Object.assign(token.style, pos);
+    token.style.left = `50%`;
+    token.style.top = `50%`;
+    token.style.transform = `
+      translate(-50%, -50%)
+      translate(${x}px, ${y}px)
+    `;
 
     cell.appendChild(token);
   });
 }
+
 
 function renderWaitingPlayers() {
   const container = document.getElementById('waitingPlayers');
@@ -123,51 +119,9 @@ function renderWaitingPlayers() {
       const token = document.createElement('div');
       token.className = 'waiting-token';
       token.style.background = p.color;
-      token.title = p.name;
       container.appendChild(token);
     });
 }
-
-
-async function rollDice() {
-  const dice = Math.floor(Math.random() * 6) + 1;
-  document.getElementById('dice').textContent = dice;
-  playSound('dice');
-
-  const player = players[currentPlayerIndex];
-  let target = Math.min(player.position + dice, boardSize);
-
-  for (let i = player.position + 1; i <= target; i++) {
-    await delay(300);
-    player.position = i;
-    renderTokens();
-  }
-
-  // 🐍🪜 Salto
-  if (snakesAndLadders[player.position]) {
-    playSound('snake');
-    await delay(500);
-    player.position = snakesAndLadders[player.position];
-    renderTokens();
-  }
-
-  if (player.position === boardSize) {
-    playSound('win');
-    setTimeout(() => {
-      alert(`${player.name} ha ganado 🎉`);
-      location.reload();
-    }, 500);
-    return;
-  }
-
-  currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-  updateUI();
-}
-
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 
 function updateUI() {
   document.getElementById('currentPlayer').textContent =
@@ -188,16 +142,23 @@ function updateUI() {
   renderWaitingPlayers();
 }
 
+/* =========================
+   DIBUJO SVG (CLAVE)
+========================= */
 function drawSnakesAndLadders() {
-  const svg = document.getElementById('svgLayer');
-  if (!svg) return;
+  if (!svgLayer) return;
 
-  svg.innerHTML = '';
+  svgLayer.innerHTML = '';
 
   const board = document.querySelector('.board');
   if (!board) return;
 
-  const b = board.getBoundingClientRect();
+  const rect = board.getBoundingClientRect();
+
+  // 🔥 CLAVE: viewBox correcto
+  svgLayer.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
+  svgLayer.setAttribute('width', rect.width);
+  svgLayer.setAttribute('height', rect.height);
 
   Object.entries(snakesAndLadders).forEach(([start, end]) => {
     const startCell = document.querySelector(`.cell[data-number="${start}"]`);
@@ -207,76 +168,51 @@ function drawSnakesAndLadders() {
     const r1 = startCell.getBoundingClientRect();
     const r2 = endCell.getBoundingClientRect();
 
-    const x1 = r1.left - b.left + r1.width / 2;
-    const y1 = r1.top - b.top + r1.height / 2;
-    const x2 = r2.left - b.left + r2.width / 2;
-    const y2 = r2.top - b.top + r2.height / 2;
+    const x1 = r1.left - rect.left + r1.width / 2;
+    const y1 = r1.top - rect.top + r1.height / 2;
+    const x2 = r2.left - rect.left + r2.width / 2;
+    const y2 = r2.top - rect.top + r2.height / 2;
 
     if (end > start) {
-      // 🪜 Escalera (doble riel)
-      const offset = 6;
+      const offset = 4;
 
-      const rail1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      rail1.setAttribute('x1', x1 - offset);
-      rail1.setAttribute('y1', y1);
-      rail1.setAttribute('x2', x2 - offset);
-      rail1.setAttribute('y2', y2);
-      rail1.classList.add('ladder');
-
-      const rail2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      rail2.setAttribute('x1', x1 + offset);
-      rail2.setAttribute('y1', y1);
-      rail2.setAttribute('x2', x2 + offset);
-      rail2.setAttribute('y2', y2);
-      rail2.classList.add('ladder');
-
-      svg.appendChild(rail1);
-      svg.appendChild(rail2);
+      ['-','+'].forEach(sign => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1 + (sign === '+' ? offset : -offset));
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2 + (sign === '+' ? offset : -offset));
+        line.setAttribute('y2', y2);
+        line.classList.add('ladder');
+        svgLayer.appendChild(line);
+      });
     } else {
-      // 🐍 Serpiente (curva)
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute(
         'd',
         `M ${x1} ${y1}
-         C ${x1 + 40} ${y1 + 20},
-           ${x2 - 40} ${y2 - 20},
+         C ${x1 + 30} ${y1 + 20},
+           ${x2 - 30} ${y2 - 20},
            ${x2} ${y2}`
       );
       path.classList.add('snake');
-      svg.appendChild(path);
+      svgLayer.appendChild(path);
     }
   });
 }
 
-const sounds = {
-  dice: new Audio('assets/sounds/dice.mp3'),
-  snake: new Audio('assets/sounds/snake.mp3'),
-  win: new Audio('assets/sounds/win.mp3')
-};
-
-function playSound(type) {
-  if (sounds[type]) {
-    sounds[type].currentTime = 0;
-    sounds[type].play();
-  }
-}
-
+/* =========================
+   MODALES
+========================= */
 function showTurnModal() {
   document.getElementById('turnTitle').textContent =
     `Turno de ${players[currentPlayerIndex].name}`;
   document.getElementById('diceAnim').textContent = '🎲';
-  document.getElementById('diceAnim').classList.remove('dice-stop');
   document.getElementById('turnModal').classList.remove('hidden');
 }
 
 document.getElementById('modalRollBtn').addEventListener('click', async () => {
-  document.getElementById('diceAnim').classList.add('dice-stop');
-
   const dice = Math.floor(Math.random() * 6) + 1;
   document.getElementById('diceAnim').textContent = dice;
-  playSound('dice');
-
-  await delay(800);
 
   document.getElementById('turnModal').classList.add('hidden');
   await movePlayer(dice);
@@ -293,7 +229,6 @@ async function movePlayer(dice) {
   }
 
   if (snakesAndLadders[player.position]) {
-    playSound('snake');
     await delay(500);
     player.position = snakesAndLadders[player.position];
     renderTokens();
@@ -301,37 +236,24 @@ async function movePlayer(dice) {
 
   if (player.position === boardSize) {
     showWinner(player.name);
-    playSound('win');
     return;
-    }
+  }
 
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+  currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+  updateUI();
 
-    // ⏱️ Espera después de terminar animaciones
-    await delay(3000);
+  await delay(3000);
+  showTurnModal();
+}
 
-    // 👇 Modal del siguiente jugador
-    showTurnModal();
-    updateUI();
-
+function delay(ms) {
+  return new Promise(res => setTimeout(res, ms));
 }
 
 function showWinner(name) {
-  document.getElementById('winTitle').textContent =
-    `🏆 ${name} ha ganado`;
+  document.getElementById('winTitle').textContent = `🏆 ${name} ha ganado`;
   document.getElementById('winModal').classList.remove('hidden');
 }
 
-
-function showWinner(name) {
-  document.getElementById('winTitle').textContent =
-    `🏆 ${name} ha ganado`;
-  document.getElementById('winModal').classList.remove('hidden');
-}
-
-/* =========================
-   REDIBUJAR SVG AL RESIZE
-========================= */
-window.addEventListener('resize', () => {
-  drawSnakesAndLadders();
-});
+/* 🔁 REDIBUJAR AL RESIZE */
+window.addEventListener('resize', drawSnakesAndLadders);

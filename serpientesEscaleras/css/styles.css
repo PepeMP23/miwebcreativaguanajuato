@@ -207,23 +207,20 @@ button:active {
    FICHAS DE JUGADORES
 ========================= */
 .token {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   position: absolute;
   border: 2px solid #fff;
   box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease;
 }
+
 
 
 /* =========================
    SVG SERPIENTES Y ESCALERAS
 ========================= */
-.board-container {
-  position: relative;
-  width: 100%;
-}
-
 #svgLayer {
   position: absolute;
   top: 0;
@@ -234,24 +231,19 @@ button:active {
   pointer-events: none;
 }
 
-.board {
-  position: relative;
-  z-index: 1;
-}
-
-
 .ladder {
   stroke: #2ecc71;
-  stroke-width: 2;
+  stroke-width: 1.4;   /* MÁS DELGADO */
   stroke-linecap: round;
 }
 
 .snake {
   stroke: #e74c3c;
-  stroke-width: 2;
+  stroke-width: 1.4;   /* MÁS DELGADO */
   fill: none;
   stroke-linecap: round;
 }
+
 
 /* =========================
    SIDEBAR
